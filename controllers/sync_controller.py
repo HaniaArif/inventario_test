@@ -16,14 +16,13 @@ class SyncController:
         self.sync = settings["sync"]
         self.file_path = settings["data_file_local_path"]
         self.file_name = settings["data_file_name"]
-        
+
         self.scopes=[st.secrets["settings"]["scopes"]]
-        self.drive_config_path = st.secrets["settings"]["drive_config_path"]
         self.parent_folder = st.secrets["settings"]["parent_folder"]
 
     def authenticate_drive(self):
         creds = service_account.Credentials.from_service_account_file(
-            self.drive_config_path, 
+            st.secrets['google_api_cred'], 
             scopes = self.scopes
         )
         return creds
@@ -93,9 +92,6 @@ class SyncController:
     def update_status(self):
         self.sync = int(not self.sync)
         data = {'sync': self.sync,
-                'scopes': self.scopes[0],
-                'drive_config_path': self.drive_config_path,
-                'parent_folder': self.parent_folder,
                 'data_file_local_path': self.file_path,
                 'data_file_name': self.file_name}
         with open('config/sync_config.json', 'w') as file:
