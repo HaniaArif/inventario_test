@@ -21,7 +21,7 @@ class SyncController:
         self.parent_folder = st.secrets["settings"]["parent_folder"]
 
     def authenticate_drive(self):
-        creds = service_account.Credentials.from_service_account_file(
+        creds = service_account.Credentials.from_service_account_info(
             st.secrets['google_api_cred'], 
             scopes = self.scopes
         )
